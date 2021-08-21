@@ -1,0 +1,144 @@
+// global styles for <a> and <p> tags
+$govuk-global-styles: true;
+$govuk-new-link-styles: true;
+
+// We can't mount GOV.UK Frontend's assets at root as it's done automatically by the extensions framework.
+$govuk-assets-path: '/govuk/assets/';
+
+// Import GOV.UK Frontend and any extension styles if extensions have been configured
+@import "lib/extensions/extensions";
+
+// Patterns that aren't in Frontend
+@import "patterns/step-by-step-header";
+@import "patterns/step-by-step-nav";
+@import "patterns/step-by-step-related";
+@import "patterns/task-list";
+@import "patterns/related-items";
+
+// Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
+
+h2{
+    color: rgb(40,52,130);
+    margin: 10px;
+    text-align: center;
+    font-size: 40px;
+}
+
+h3 { /* Header 3 Colour will be Kainos Blue*/
+  color: rgb(90, 153, 71);
+  font-size: 25px;
+}
+
+
+#topEarnerTable {
+    padding-top: 20px;
+}
+
+.govuk-button{
+    border: 2px solid black;
+}
+
+.govuk-button--secondary {
+    box-shadow: none;
+}
+.govuk-button--secondary:active {
+    box-shadow: none;
+}
+.govuk-button--secondary::after {
+    box-shadow: none;
+}
+
+
+
+/* Header Formatting */
+.header-img {
+width: 100%;
+height: 150px;
+background: url('images/KainosHeader.jpeg');
+background-size: cover;
+padding: 0;
+margin: 0;
+}
+
+.header-name-img {
+    width: 250px;
+    height: 75px;
+    background: url('images/KainosName.png');
+    background-size: cover;
+    padding: 0;
+    margin: 0;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    }
+
+/* Paragraph Formatting*/
+p {
+    font-family: Helvetica, Calibri;
+    margin: 10px;
+}
+
+
+/* Layout Formatting */
+.center {
+    display: block;
+    text-align: center;
+  }
+
+/* Button Formatting*/
+.button {
+    background-color: rgb(90, 153, 71);
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px 2px;
+    border-radius: 12px;
+    width: 100px;
+    height: 50px;
+}
+
+.button:hover {background-color: rgb(65, 110, 52)}
+
+
+/* Table Formatting */
+
+input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+/* Form Formatting */
+  input[type=submit] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+
+.submit {
+    font-weight:bold;
+    font-size: 17px;
+    letter-spacing: 1px;
+    }
+
+.govuk-width-container {
+    max-width: 1080px;
+}
+

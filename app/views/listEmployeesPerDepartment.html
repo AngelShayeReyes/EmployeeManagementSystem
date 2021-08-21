@@ -1,0 +1,60 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% extends "layout_unbranded.html" %} 
+{% block pageTitle %} 
+  List of Employees per Department
+{% endblock %} 
+ 
+{% block beforeContent %}
+    {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+    {{ govukBackLink({
+    text: "Back",
+    href: "/"
+    }) }}
+{% endblock %}
+
+{% block content %}
+
+{{ govukButton({
+  text: "HR",
+  href: "/listEmployeesPerDepartment/HR"
+}) }}
+{{ govukButton({
+  text: "Sales",
+  href: "/listEmployeesPerDepartment/Sales"
+}) }}
+{{ govukButton({
+  text: "Finance",
+  href: "/listEmployeesPerDepartment/Finance"
+}) }}
+{{ govukButton({
+  text: "BU",
+  href: "/listEmployeesPerDepartment/BU"
+}) }}
+{{ govukButton({
+  text: "Technical",
+  href: "/listEmployeesPerDepartment/Technical"
+}) }}
+
+<h2>Employees in {{departmentName}} ( {{departmentEmployees.length}} )</h2> 
+{% if departmentEmployees and departmentEmployees.length > 0 %} 
+{% set employeerows = [] %} 
+{% for departmentEmployee in departmentEmployees%}
+{% set employeerows = (employeerows.push([
+                        {text: departmentEmployee.employee_name},
+                        {text:  "True" if  employee.is_manager else "False"},
+                        {text: "True" if   employee.active else "False"},
+                        {text: employee.employee_type}]),
+                        employeerows) %}
+{% endfor %} 
+{{govukTable({ 
+    head: [ { text: "Full Name" },
+            { text: "Manager" },
+            { text: "Active" }],
+    rows: employeerows })
+}} 
+{% else %} 
+There are no employees. 
+{% endif %}
+
+{% endblock %}

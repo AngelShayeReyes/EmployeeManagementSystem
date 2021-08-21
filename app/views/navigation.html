@@ -1,0 +1,31 @@
+{% extends "layout_unbranded.html" %} 
+{% block pageTitle %} 
+  Navigation
+{% endblock %} 
+ 
+{% block content %}
+
+<img class="header-img" src="/public/images/KainosHeader.jpeg" alt="User icon">
+<h2>Welcome to the Dashboard</h2> 
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+<h3>Add Employee:</h3>
+<ul> 
+    <li><h4><a href="/newEmployeeForm.html" title="Add General Employee">Other Employee</a></h4></li>
+    <li><h4><a href="/newSalesEmployeeForm.html" title="Add Sales Employee">Sales Employee</a></h4></li>
+</ul>
+
+<h3>View Employees:</h3>
+<ul> 
+    <li><h4><a href="/listEmployees" title="View All Employees">All Employees</a></h4></li>
+    <li><h4><a href="/listEmployeesPerDepartment/HR" title="View Employees by Department">By Department</a></h4></li>
+    <li><h4><a href="/listSalesEmployees" title="View Sales Employees and Top Earner">Employee wth Highest Sales Total</a></h4></li>
+</ul>
+
+<h3>Modify Employee:</h3>
+<ul>
+    <li><h4><a href="/modifySales" title="Modify Total Sales of Sales Employee (inactive)">Total Sales of Sales Employee (inactive)</a></h4></li>
+</ul>
+
+
+{% endblock %}

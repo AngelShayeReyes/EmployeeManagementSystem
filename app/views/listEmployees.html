@@ -1,0 +1,39 @@
+{% extends "layout_unbranded.html" %} 
+{% block pageTitle %} 
+  List of Employees 
+{% endblock %} 
+
+{% block beforeContent %}
+    {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+    {{ govukBackLink({
+    text: "Back",
+    href: "/"
+    }) }}
+{% endblock %}
+ 
+{% block content %}
+
+<h2>All Employees( {{employees.length}} )</h2> 
+{% if employees and employees.length > 0 %} 
+{% set employeerows = [] %} 
+{% for employee in employees %} 
+{% set employeerows = (employeerows.push([
+                        {text: employee.employee_name},
+                        {text:  "True" if  employee.is_manager else "False"},
+                        {text: "True" if   employee.active else "False"},
+                        {text: employee.employee_type}]),
+                        employeerows) %}
+{% endfor %} 
+{{govukTable({
+    head: [ { text: "Name" },
+            { text: "Manager" },
+            { text: "Active" },
+            { text: "Department" } ],
+    rows: employeerows })
+}} 
+{% else %}
+There are no employees. 
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "layout_unbranded.html" %}
+{% block pageTitle %}
+  List of Sales Employees
+{% endblock %}
+
+{% block beforeContent %}
+    {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+    {{ govukBackLink({
+    text: "Back",
+    href: "/"
+    }) }}
+{% endblock %}
+
+{% block content %}
+
+<script language='javascript'>
+  function showTopEarner(){
+     b = document.getElementById("topEarnerTable");
+     b.style="display: block;";
+  }
+  </script>
+
+<h2 id = "headingSales" >Sales Employees( {{employees.length}} )</h2>
+
+{% if employees and employees.length > 0 %}
+{% set employeerows = [] %}
+{% for employee in employees | sort(attribute='employee_name')%}
+{% set employeerows = (employeerows.push([
+                        {text: employee.employee_name },
+                        {text: "True" if employee.is_manager else "False"},
+                        {text: "True" if employee.active  else "False"},
+                        {text: employee.commission_rate + "%"},
+                        {text: "£" + employee.total_sales}]),
+                        employeerows) %}
+{% endfor %}
+{{govukTable({
+    head: [ { text: "Name" },
+            {text: "Manager"},
+            {text: "Active"},
+            {text: "Commission Rate"},
+            {text: "Total Sales"}],
+    rows: employeerows })
+}}
+
+{% else %}
+There are no Sales Employees.
+{% endif %}
+
+<div>
+
+  <button class="govuk-button govuk-button--secondary" data-module="govuk-button" onclick="showTopEarner()" >Show Top Earner</button></div>
+
+<div id="topEarnerTable" style="display: none;">
+  <h2 id = "headingSales">Top Earner</h2>
+  <div >
+  {% if topEarner and topEarner.length > 0 %}
+  {% set earnerrows = [] %}
+  {% for earner in topEarner | sort(attribute='name')%}
+  {% set earnerrows = (earnerrows.push([
+                        {text: earner.employee_name },
+                        {text: earner.commission_rate + "%"},
+                        {text: "£" + earner.total_sales}]), earnerrows) %}
+  {% endfor %}
+  {{govukTable({
+    head: [ { text: "Name" },
+            {text: "Commission Rate"},
+            {text: "Total Sales"}],
+    rows: earnerrows })
+  }}
+
+  {% else %}
+  There is no Top Earner.
+  {% endif %}
+
+  </div>
+</div>
+
+{% endblock %}
