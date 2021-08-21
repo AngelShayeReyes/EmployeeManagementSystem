@@ -25,8 +25,7 @@ router.get('/addemployee', async(req, res)=>{
 
 router.post('/addemployee', async(req, res) => {
     var employee = req.body
-    var errorMessage = employeeData.validate(employee);
-    console.log(errorMessage)
+    var errorMessage = employeeData.validateEmployee(employee);
     if(errorMessage){
         res.locals.errormessage = errorMessage;
         res.render('newEmployeeForm', employee )
@@ -42,16 +41,17 @@ router.get('/addsalesemployee', async(req, res)=>{
 
 router.post('/addsalesemployee', async(req, res) => {
     var salesEmployee = req.body
-    var errorMessage = employeeData.validate(salesEmployee);
-    console.log(errorMessage)
-    if(errorMessage){
-        res.locals.errormessage = errorMessage;
+    var errorMessageOne = employeeData.validateEmployee(salesEmployee);
+    var errorMessageTwo = employeeData.validateSalesEmployee(salesEmployee);
+    if(errorMessageOne||errorMessageTwo){
+        res.locals.errormessage = errorMessageOne||errorMessageTwo;
         res.render('newSalesEmployeeForm', salesEmployee )
     } else {
         let insertedKey = await employeeData.addSalesEmployee(salesEmployee)
-        res.render('listSalesEmployees', { employees: await employeeData.getEmployees(), employees: await employeeData.getSalesEmployees(), topEarner: await employeeData.getTopEarner()} )
+        res.render('listSalesEmployees', {  employees: await employeeData.getEmployees(),
+                                            employees: await employeeData.getSalesEmployees(),
+                                            topEarner: await employeeData.getTopEarner()} )
     }
 })
 
-/*blah*/
 module.exports = router

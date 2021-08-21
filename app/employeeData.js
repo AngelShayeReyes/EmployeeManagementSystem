@@ -26,35 +26,6 @@ exports.getEmployees = async () => {
     return await getEmployeesAll(); 
 }
 
-exports.validate = (employee) => {
-    if (!(employee.employee_name)||!(employee.ni_number)||!(employee.employee_address)||
-        !(employee.employee_postcode)||!(employee.salary)||!(employee.account_num)||!(employee.sort_code)) {
-       return "Field missing";
-    }
-
-    const ni_regex = /^\s*[a-zA-Z]{2}(?:\s*\d\s*){6}[a-zA-Z]?\s*$/
-    if(!(ni_regex).test(employee.ni_number)){
-       return "National Insurance Number format is incorrect.";
-    }
-
-    if(employee.salary < 7000){
-        return "Salary cannot be below 7000.";
-    }
-
-    if(isNaN(employee.salary)){
-        return "Salary can only be a number.";
-    }
-
-    const account_num_regex = /^\s*[0-9]{8}$/
-    if(!account_num_regex.test(employee.account_num)){
-           return "Incorrect account number format.";
-    }
-    const sort_code_regex = /[0-9]{2}-?[0-9]{2}-?[0-9]{2}$/
-    if(!sort_code_regex.test(employee.sort_code)){
-           return "Incorrect sort code format.";
-    }
-  }
-
 exports.addEmployee = async (newEmployee) => {
     let results = await db.query('INSERT INTO Employee SET ?', newEmployee)
     console.log(newEmployee)
@@ -79,8 +50,7 @@ exports.getTopEarner = async () => {
     return await getTopEarner(); 
 }
 
-exports.addSalesEmployee = async (newSalesEmployee) => { 
-    
+exports.addSalesEmployee = async (newSalesEmployee) => {
     const normalEmployee = {
         employee_id: newSalesEmployee.employee_id,
         employee_name: newSalesEmployee.employee_name,
@@ -108,3 +78,51 @@ exports.addSalesEmployee = async (newSalesEmployee) => {
 
     return results.insertId; 
 }
+
+exports.validateEmployee = (employee) => {
+    if (!(employee.employee_name)||!(employee.ni_number)||!(employee.employee_address)||
+        !(employee.employee_postcode)||!(employee.salary)||!(employee.account_num)||!(employee.sort_code)) {
+       return "Field missing";
+    }
+
+    const ni_regex = /^\s*[a-zA-Z]{2}(?:\s*\d\s*){6}[a-zA-Z]?\s*$/
+    if(!(ni_regex).test(employee.ni_number)){
+       return "National Insurance Number format is incorrect.";
+    }
+
+    if(employee.salary < 7000){
+        return "Salary cannot be below 7000.";
+    }
+
+    if(isNaN(employee.salary)){
+        return "Salary can only be a number.";
+    }
+
+    const account_num_regex = /^\s*[0-9]{8}$/
+    if(!account_num_regex.test(employee.account_num)){
+           return "Incorrect account number format.";
+    }
+
+    if(isNaN(employee.account_num)){
+            return "Account number can only be a number.";
+        }
+
+    const sort_code_regex = /[0-9]{2}-[0-9]{2}-[0-9]{2}$/
+    if(!sort_code_regex.test(employee.sort_code)){
+           return "Incorrect sort code format.";
+    }
+  }
+
+exports.validateSalesEmployee = (salesEmployee) => {
+    if (!(salesEmployee.commission_rate)||!(salesEmployee.total_sales)) {
+       return "Field missing";
+    }
+
+    if(isNaN(salesEmployee.total_sales)){
+        return "Total sales can only be a number.";
+    }
+
+    if(salesEmployee.commission_rate > 100){
+            return "Commission rate is maximum 100.";
+        }
+  }
